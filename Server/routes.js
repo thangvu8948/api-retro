@@ -1,13 +1,13 @@
 var express = require("express");
 var router = express.Router();
-var film = require('../model/Account/Account');
+var account = require('../model/Account/Account');
 
 router.get('/', (req, res, next) => {
-    film.getAllAccount((err, rows) => {
+    await account.getAllAccount((err, rows) => {
         if (err) {
-            res.json(err);
+            res.send(res.json(err));
         } else {
-            res.json(rows);
+            res.send(res.json(rows));
         }
     })
     res.send("Hello World");
