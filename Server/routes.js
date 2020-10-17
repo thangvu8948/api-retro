@@ -10,5 +10,6 @@ router.get('/', (req, res, next) => {
             res.json(rows);
         }
     })
+    res.send("Hello World");
 })
 module.exports = router;
