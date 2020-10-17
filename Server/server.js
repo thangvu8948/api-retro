@@ -8,8 +8,9 @@ var app = express();
 app.use(body_parser.urlencoded({extended: true}));
 app.use(body_parser.json());
 
-var server = app.listen(3000, function() {
-    console.log("Server listening on port " + server.address().port);
+const PORT = process.env.PORT || 3000;
+var server = app.listen(PORT, function() {
+    console.log("Server listening on port " + PORT);
 })
 app.use('/', routes);
 
