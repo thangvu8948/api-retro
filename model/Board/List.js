@@ -1,8 +1,9 @@
 const { response } = require('express');
 const db = require('../DbConnection');
 
-const Board = {
+const List = {
     get: (req, res) => {
+        const boardId = req.params.BoardId;
         let sql = 'Select * from board_info';
         db.query(sql, (err, response) => {
             if (err) throw err;
@@ -13,7 +14,6 @@ const Board = {
     addBoard: (req, res) => {
         let data = req.body.name;
         console.log(req.body);
-
         let sql =`INSERT INTO board_info(Name) values ("${data}")`;
         db.query(sql, (err, response) => {
             if (err) throw err;
@@ -22,4 +22,4 @@ const Board = {
     }
 }
 
-module.exports = Board;
+module.exports = List;
