@@ -21,7 +21,7 @@ routes(app);
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found'})
 })
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 var server = app.listen(PORT, function() {
     console.log("Server listening on port " + PORT);
 })
