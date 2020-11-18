@@ -40,6 +40,7 @@ const Account = {
         return new Promise((resolve, reject) => {
             db.query(sql, id, function (err, response) {
                 if (err) {
+                    console.log(err);
                     reject(new Error({ error: "User Not Found" }));
                 } else {
                     if (response.length === 0) {

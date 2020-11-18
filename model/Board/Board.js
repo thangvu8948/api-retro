@@ -50,11 +50,25 @@ const Board = {
     getList: (req, res) => {
         const userId = req.user.Id;
         console.log(userId + " " + req.params.id)
-        let sql = `select * from board_list join list_info on board_list.ListId = list_info.ListId join board_info on board_list.BoardId = board_info.BoardId where board_list.BoardId= ?`;
-        db.query(sql, req.params.id, (err, response) => {
-            if (err)throw err;
-            res.json(response);
-        })
+        let sql0 = `select * from board_user join board_info on board_user.BoardId = board_info.BoardId where board_user.BoardId = ? and board_user.UserId = ? and board_info.isDelete = 0`;
+        db.query(sql0, [req.params.id, userId], (err0, response0) => {
+            if (err0) {
+                console.log(err);
+                res.status(403).json({isSuccess: false})
+            } else {
+                if (response0.length == 0) {
+                    res.status(403).json({isSuccess: false})
+                    return;
+                }
+                let sql = `select * from board_list join list_info on board_list.ListId = list_info.ListId join board_info on board_list.BoardId = board_info.BoardId where board_list.BoardId= ?`;
+                db.query(sql, req.params.id, (err, response) => {
+                    if (err)throw err;
+                    response.isSuccess = true;
+                    res.json(response).status(200);
+                })
+            }
+        } )
+        
     },
 
     getItem: (req, res) => {

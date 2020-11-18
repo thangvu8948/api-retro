@@ -27,19 +27,20 @@ const Auth = {
                     if (errQuery) {
                         console.log("Co loi");
                         console.log(errQuery);
-                        res.json(response);
+                        res.json({isSuccess: false, errorCode: 1});
                     }
                     else {
-                        let subSql = `INSERT INTO user(Id, Name) values (?, ?)`;
-                        db.query(subSql, [response.insertId, req.body.Name], (subErr, subRes) => {
+                        let subSql = `INSERT INTO user(Id, Name, Gender, DOB) values (?, ?, ?, ?)`;
+                        db.query(subSql, [response.insertId, req.body.Name, req.body.Gender, req.body.DOB], (subErr, subRes) => {
                             if (subErr) {
                                 console.log(subErr);
-                                res.json(subRes);
+                                res.json({isSuccess: false, errorCode: 1});
                             } else {
                                 console.log("Created account");
+                        res.json({isSuccess: true, errorCode: 1, response});
+
                             }
                         })
-                        res.json(response);
                     }
                 });
             }
