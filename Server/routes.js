@@ -1,5 +1,6 @@
 const { json } = require("body-parser");
 var express = require("express");
+const Account = require("../model/Account/Account");
 let router = express.Router();
 let account = require('../model/Account/Account');
 const { post } = require("./server");
@@ -48,4 +49,11 @@ module.exports = function (app) {
     app.route('/auth/signup').post(auth.signup);
     app.route("/auth/signin").post(auth.signin);
     app.route("/me").all(authMiddleware).get(account.getInfoById);
+    app.route("/boards/:id").all(authMiddleware).get(board.getList);
+    app.route("/boards/delete").all(authMiddleware).post(board.removeBoard);
+    app.route("/boards/rename").all(authMiddleware).post(board.renameBoard);
+    app.route("/items/update").all(authMiddleware).post(board.updateItem)
+    app.route("/items/delete").all(authMiddleware).post(board.removeItem);
+    app.route("/boards/:id/:listId").all(authMiddleware).get(board.getItem).post(board.addItem);
+    app.route("/account").all(authMiddleware).get(Account.getInfo).post(Account.updateInfo);
 }

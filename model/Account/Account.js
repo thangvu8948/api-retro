@@ -36,7 +36,7 @@ const Account = {
 
     findOne: async function (id) {
         console.log("id: " + id);
-        let sql = "SELECT user.* FROM user JOIN account on user.Id = account.Id where user.Id = ?";
+        let sql = "SELECT user.*,account.Email FROM user JOIN account on user.Id = account.Id where user.Id = ?";
         return new Promise((resolve, reject) => {
             db.query(sql, id, function (err, response) {
                 if (err) {
@@ -65,6 +65,28 @@ const Account = {
         })
 
     },
+
+    getInfo: (req, res) => {
+        const userId = req.user.Id;
+        let sql = "SELECT user.* FROM user JOIN account on user.Id = account.Id where user.Id = ?";
+         Account.findOne(userId).then((response) => {
+             res.json(response);
+         } );
+    },
+
+    updateInfo: (req, res) => {
+        const userId = req.user.Id;
+        const name = req.body.Name;
+        const gender = req.body.Gender;
+        const DOB = req.body.DOB;
+        let sql = `update user set Name = ?, Gender = ?, DOB = ? where Id = ?`;
+        db.query(sql, [name, gender, DOB, userId], (err, response) => {
+            if (err) {
+                throw err;
+            }
+            res.json(response);
+        }) 
+    }
 }
 
 module.exports = Account;
